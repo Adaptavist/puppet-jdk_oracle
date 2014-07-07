@@ -88,7 +88,7 @@ class jdk_oracle(
                 creates => "${install_dir}/${installerFilename}",
                 command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
                 timeout => 600,
-                require => Package['wget'],
+                # require => Package['wget'],
             }
             file { "${install_dir}/${installerFilename}":
                 mode    => '0755',
@@ -150,10 +150,10 @@ class jdk_oracle(
                 }
             }
             Debian:    {
-                exec { "/usr/sbin/update-alternatives --install /usr/bin/java java ${java_home}/bin/java 20000":
+                exec { "update-alternatives --install /usr/bin/java java ${java_home}/bin/java 20000":
                     require => Exec['extract_jdk'],
                 }
-                exec { "/usr/sbin/update-alternatives --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
+                exec { "update-alternatives --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
                     require => Exec['extract_jdk'],
                 }
                 augeas { 'environment':
